@@ -6,24 +6,30 @@ public class CurrencyConverter {
 
         System.out.println("==== Currency Converter ====");
         System.out.println("Available currencies: USD, EUR, INR, AUD");
-        System.out.print("Enter amount: ");
-        double amount = scanner.nextDouble();
 
-        System.out.print("From currency: ");
-        String from = scanner.next().toUpperCase();
+        while (true) {
+            System.out.print("Enter amount (or -1 to exit): ");
+            double amount = scanner.nextDouble();
+            if (amount == -1) break;
 
-        System.out.print("To currency: ");
-        String to = scanner.next().toUpperCase();
+            System.out.print("From currency: ");
+            String from = scanner.next().toUpperCase();
 
-        if (!isSupported(from) || !isSupported(to)) {
-            System.out.println("Unsupported currency! Please use USD, EUR, INR, or AUD.");
-        } else if (amount < 0) {
-            System.out.println("Amount cannot be negative!");
-        } else {
-            double converted = convert(amount, from, to);
-            System.out.printf("%.2f %s = %.2f %s\n", amount, from, converted, to);
+            System.out.print("To currency: ");
+            String to = scanner.next().toUpperCase();
+
+            if (!isSupported(from) || !isSupported(to)) {
+                System.out.println("Unsupported currency! Please use USD, EUR, INR, or AUD.");
+            } else if (amount < 0) {
+                System.out.println("Amount cannot be negative!");
+            } else {
+                double converted = convert(amount, from, to);
+                System.out.printf("%.2f %s = %.2f %s\n", amount, from, converted, to);
+            }
+            System.out.println(); // Print empty line for better readability
         }
 
+        System.out.println("Thank you for using the currency converter!");
         scanner.close();
     }
 
@@ -41,6 +47,8 @@ public class CurrencyConverter {
         else if (from.equals("INR") && to.equals("EUR")) rate = 0.011;
         else if (from.equals("AUD") && to.equals("USD")) rate = 0.65;
         else if (from.equals("AUD") && to.equals("EUR")) rate = 0.56;
+        else if (from.equals("AUD") && to.equals("INR")) rate = 53.5;
+        else if (from.equals("INR") && to.equals("AUD")) rate = 0.019;
         else if (from.equals(to)) rate = 1.0;
 
         return amount * rate;
